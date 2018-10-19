@@ -1,0 +1,31 @@
+service: customers-segmentation
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  memorySize: 128
+  timeout: 10
+  stage: dev
+  region: us-east-1
+  role: arn:aws:iam::999920501566:role/lambda_basic_vpc_execution
+
+functions:
+  getAll:
+    handler: handler.generateReports
+    events:
+     - http:
+         path: generateReports
+         method: get
+         cors: true
+    vpc:
+      vpcName: vpc-ff58fXXX (10.0.0.0/16) | VPC-HH
+      securityGroupIds: [sg-2cfca88x]
+      subnetIds: [subnet-043e999,subnet-68640999]
+    environment:
+      QUERY: 20
+      DB: mongodb://10.0.484.48/databasename
+
+  
+
+plugins:
+- serverless-offline
